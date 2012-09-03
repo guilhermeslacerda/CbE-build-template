@@ -1,0 +1,215 @@
+<project name="CbE_build_template" basedir="." default="tudo" xmlns:jacoco="antlib:org.jacoco.ant">
+
+	<!-- 
+	Build template para usar em projetos Java
+	Autores: Guilherme Lacerda e Carlos Lopes
+	www.codingbyexample.org
+	
+	- Configuracao padrao do projeto
+	- Definicao do arquivo de propriedades
+	- Preparacao de ambiente
+	-->
+	<property file="build.properties" />
+
+	<target name="tudo" depends="apaga, inicializa, compila, 
+				testa, gera-rel-testes, gera-rel-cobertura-jacoco, gera-rel-cobertura-emma, 
+				analisa-codigo, checa-padroes" />
+
+	<path id="project.classpath">
+		<pathelement location="${bin.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="apaga" description="Apaga arquivos e pastas do projeto">
+		<echo message="Apagando diretorios do projeto..." />
+		<delete dir="${bin.dir}" />
+		<delete dir="${docs.dir}" />
+	</target>
+
+	<target name="inicializa" description="Cria pastas do projeto">
+		<echo message="Criando diretorios do projeto..." />
+		<mkdir dir="${bin.dir}" />
+		<mkdir dir="${docs.dir}" />
+		<mkdir dir="${jacoco.report.dir}"/>
+		<mkdir dir="${test.report.dir}" />
+		<mkdir dir="${pmd.report.dir}" />
+		<mkdir dir="${checkstyle.report.dir}" />
+	</target>
+	
+	<!-- 
+		Definicao de tarefas especificas 
+	-->
+	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<taskdef resource="checkstyletask.properties">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<taskdef name="cpd" classname="net.sourceforge.pmd.cpd.CPDTask">
+		<classpath refid="project.classpath" />
+	</taskdef>
+
+	<taskdef resource="emma_ant.properties">
+		<classpath refid="project.classpath" />
+	</taskdef>
+	
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath refid="project.classpath"/>
+	</taskdef>
+	
+	<!-- 
+		Compilacao de fontes e testes 
+	-->
+	<target name="compila" depends="inicializa" description="Compila classes do projeto">
+		<echo message="Compilando as classes do projeto..." />
+		<javac debug="on" destdir="${bin.dir}" srcdir="${src.dir}" includeantruntime="false">
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="compila-testes" description="Compila os testes">
+		<echo message="Compilando as classes de testes do projeto..." />
+		<javac debug="on" srcdir="${test.dir}" destdir="${bin.dir}" includeantruntime="false">
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<!-- 
+		Roda os testes com JUnit 
+	-->
+	<target name="testa" depends="compila, compila-testes" description="Executa os testes de unidade">
+		<echo message="Executando os testes..." />
+		<jacoco:coverage destfile="${jacoco.file}">
+		<junit printsummary="yes" haltonfailure="yes" fork="yes" forkmode="once">
+			<formatter type="xml" />
+			<classpath refid="project.classpath" />
+			<batchtest fork="yes" todir="${test.report.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		</jacoco:coverage>	
+	</target>
+	
+	<target name="gera-rel-testes" description="Gera relatorio dos testes baseado no JUnit">
+		<echo message="Gerando o relatorio de testes..." />
+		<junitreport todir="${test.report.dir}">
+			<fileset dir="${test.report.dir}">
+				<include name="TEST*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.report.html.dir}" />
+		</junitreport>
+	</target>
+
+	<!--
+		Code coverage com JaCoCo
+	-->
+	<target name="gera-rel-cobertura-jacoco" depends="testa" description="Gera relatorio de code coverage (JaCoCo)">
+		<echo message="Gerando de code coverage com JaCoCo..." />
+		<jacoco:report>
+			<executiondata>
+				<file file="${jacoco.file}" />
+			</executiondata>
+		
+			<structure name="JaCoCo Code Coverage">
+				<classfiles>
+					<fileset dir="${bin.dir}" />
+				</classfiles>
+				<sourcefiles encoding="UTF-8">
+					<fileset dir="${src.dir}" />
+				</sourcefiles>
+			</structure>
+		
+			<html destdir="${jacoco.report.dir}" />
+			<csv destfile="${jacoco.report.dir}/report.csv" />
+			<xml destfile="${jacoco.report.dir}/report.xml" />
+		</jacoco:report>
+	</target>
+	
+	<!-- 
+		Code coverage com Emma 
+	-->
+	<target name="instrumenta" depends="compila" description="Instrumenta informacoes para cobertura de codigo">
+		<emma enabled="${emma.deve.executar}">
+			<instr instrpath="${bin.dir}" destdir="${emma.bin.dir}" metadatafile="${emma.metadata.dir}/metadata.emma" merge="false" mode="fullcopy">
+			</instr>
+		</emma>
+	</target>
+
+	<target name="gera-cobertura" depends="instrumenta, testa">
+		<junit haltonfailure="false" haltonerror="true" fork="true">
+			<classpath>
+				<pathelement location="${emma.bin.dir}/classes" />
+				<pathelement location="${emma.bin.dir}/lib" />
+				<path refid="project.classpath" />
+			</classpath>
+			<formatter type="plain" usefile="false" />
+			<test name="${suite.testes}" />
+			<jvmarg value="-Demma.coverage.out.file=${emma.metadata.dir}/cobertura.emma" />
+			<jvmarg value="-XX:-UseSplitVerifier" />
+			<jvmarg value="-Demma.coverage.out.merge=false" />
+		</junit>
+	 </target>
+
+	<target name="gera-rel-cobertura-emma" depends="gera-cobertura" description="Gera relatorio de code coverage (Emma)">
+		<echo message="Gerando relatorio de cobertura de testes..." />
+		<delete dir="${emma.relatorio.dir}" />
+		<emma enabled="${emma.deve.executar}">
+			<report sourcepath="${src.dir}" sort="+block,+name,+method,+class" metrics="method:70,block:80,line:80,class:100">
+				<fileset dir="${emma.metadata.dir}">
+					<include name="*.emma" />
+				</fileset>
+				<html outfile="${emma.report.dir}/index.html" depth="method" columns="name,class,method,block,line" />
+				<xml outfile="${emma.report.dir}/coverage_report.xml" depth="method" columns="name,class,method,block,line" />
+			</report>
+		</emma>
+		<delete dir="${emma.bin.dir}" />
+		<delete dir="${emma.metadata.dir}" />
+	</target>
+	
+	<!-- 
+		Analise de codigo com PMD e CPD 
+	-->
+	<target name="analisa-codigo" description="Analisa o codigo fonte com PMD">
+		<echo message="Verificando a qualidade do codigo..." />
+		<pmd rulesetfiles="${pmd.ruleset.file}">
+			<formatter type="net.sourceforge.pmd.renderers.SummaryHTMLRenderer" toFile="${pmd.report.dir}/pmd.html" />
+			<formatter type="net.sourceforge.pmd.renderers.XMLRenderer" toFile="${pmd.report.dir}/pmd.xml" />
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<fileset dir="${test.dir}" includes="**/*.java" />
+		</pmd>
+	</target>
+
+	<target name="codigo-duplicado">
+		<cpd minimumTokenCount="10" outputFile="${pmd.report.dir}/cpd.txt">
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<fileset dir="${test.dir}" includes="**/*.java" />
+		</cpd>
+	</target>
+	
+	<!-- 
+		Analise de codigo com Checkstyle 
+	-->
+	<target name="checa-padroes" description="Verifica se o codigo esta seguindo os padroes de codificacao.">
+		<echo message="Analisando os padroes de codificacao..." />
+		<checkstyle config="${checkstyle.conventions.dir}/sun_checks.xml" 
+				failureProperty="checkstyle.failure" failOnViolation="false">
+			<formatter type="xml" tofile="${checkstyle.report.dir}/checkstyle_report.xml" />
+			<fileset dir="${src.dir}" includes="**/*.java" />
+		</checkstyle>
+		<xslt style="${checkstyle.conventions.dir}/checkstyle-noframes.xsl" 
+			in="${checkstyle.report.dir}/checkstyle_report.xml" out="${checkstyle.report.dir}/checkstyle_report.html" >
+			<classpath refid="project.classpath" /> 
+		</xslt> 
+	</target>
+
+</project>
