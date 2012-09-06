@@ -88,8 +88,9 @@
 	<target name="testa" depends="compila, compila-testes" description="Executa os testes de unidade">
 		<echo message="Executando os testes..." />
 		<jacoco:coverage destfile="${jacoco.file}">
-		<junit printsummary="yes" haltonfailure="yes" fork="yes" forkmode="once">
+		<junit showoutput="true" printsummary="yes" haltonfailure="yes" fork="yes" forkmode="once">
 			<formatter type="xml" />
+            <formatter type="brief" usefile="false" />
 			<classpath refid="project.classpath" />
 			<batchtest fork="yes" todir="${test.report.dir}">
 				<fileset dir="${test.dir}">
