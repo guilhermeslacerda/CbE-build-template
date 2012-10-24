@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.0.0" timestamp="2012-10-24T19:41:51.785">
+<file name="C:\JavaApps\IntelliJ\CbE-build-template\src\HelloWorld.java">
+<violation beginline="2" endline="13" begincolumn="8" endcolumn="1" rule="NoPackage" ruleset="Naming" externalInfoUrl="http://pmd.sourceforge.net/rules/java/naming.html#NoPackage" priority="3">
+All classes and interfaces must belong to a named package
+</violation>
+<violation beginline="4" endline="4" begincolumn="26" endcolumn="32" rule="BeanMembersShouldSerialize" ruleset="JavaBeans" class="HelloWorld" variable="message" externalInfoUrl="http://pmd.sourceforge.net/rules/java/javabeans.html#BeanMembersShouldSerialize" priority="3">
+Found non-transient, non-static member. Please mark as transient or provide accessors.
+</violation>
+<violation beginline="6" endline="6" begincolumn="23" endcolumn="36" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" class="HelloWorld" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'message' is not assigned and could be declared final
+</violation>
+</file>
+<file name="C:\JavaApps\IntelliJ\CbE-build-template\test\AllTests.java">
+<violation beginline="5" endline="6" begincolumn="8" endcolumn="1" rule="NoPackage" ruleset="Naming" externalInfoUrl="http://pmd.sourceforge.net/rules/java/naming.html#NoPackage" priority="3">
+All classes and interfaces must belong to a named package
+</violation>
+<violation beginline="5" endline="6" begincolumn="8" endcolumn="1" rule="AtLeastOneConstructor" ruleset="Controversial" externalInfoUrl="http://pmd.sourceforge.net/rules/java/controversial.html#AtLeastOneConstructor" priority="3">
+Each class should declare at least one constructor
+</violation>
+</file>
+<file name="C:\JavaApps\IntelliJ\CbE-build-template\test\HelloWorldTest.java">
+<violation beginline="6" endline="14" begincolumn="8" endcolumn="1" rule="NoPackage" ruleset="Naming" externalInfoUrl="http://pmd.sourceforge.net/rules/java/naming.html#NoPackage" priority="3">
+All classes and interfaces must belong to a named package
+</violation>
+<violation beginline="10" endline="10" begincolumn="9" endcolumn="60" rule="LocalVariableCouldBeFinal" ruleset="Optimization" class="HelloWorldTest" method="shouldSayStuff" variable="helloWorld" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'helloWorld' could be declared final
+</violation>
+</file>
+<file name="C:\JavaApps\IntelliJ\CbE-build-template\test\helpers\ClasspathSuite.java">
+<violation beginline="13" endline="27" begincolumn="1" endcolumn="1" rule="CommentSize" ruleset="Comments" package="helpers" externalInfoUrl="http://pmd.sourceforge.net/rules/java/comments.html#CommentSize" priority="3">
+Too many lines
+</violation>
+<violation beginline="33" endline="33" begincolumn="27" endcolumn="45" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'setupClass' is not assigned and could be declared final
+</violation>
+<violation beginline="38" endline="38" begincolumn="9" endcolumn="63" rule="LocalVariableCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="getTestClasses" variable="testClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'testClasses' could be declared final
+</violation>
+<violation beginline="41" endline="41" begincolumn="25" endcolumn="38" rule="AvoidInstantiatingObjectsInLoops" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="getTestClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#AvoidInstantiatingObjectsInLoops" priority="3">
+Avoid instantiating new objects inside loops
+</violation>
+<violation beginline="41" endline="41" begincolumn="13" endcolumn="38" rule="LocalVariableCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="getTestClasses" variable="root" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'root' could be declared final
+</violation>
+<violation beginline="53" endline="53" begincolumn="64" endcolumn="85" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="gatherTestClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'classes' is not assigned and could be declared final
+</violation>
+<violation beginline="53" endline="53" begincolumn="54" endcolumn="61" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="gatherTestClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'cur' is not assigned and could be declared final
+</violation>
+<violation beginline="53" endline="53" begincolumn="43" endcolumn="51" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="gatherTestClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'root' is not assigned and could be declared final
+</violation>
+<violation beginline="57" endline="57" begincolumn="24" endcolumn="57" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="gatherTestClasses" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (method chain calls)
+</violation>
+<violation beginline="59" endline="59" begincolumn="21" endcolumn="96" rule="LocalVariableCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="gatherTestClasses" variable="clazz" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#LocalVariableCouldBeFinal" priority="3">
+Local variable 'clazz' could be declared final
+</violation>
+<violation beginline="70" endline="70" begincolumn="57" endcolumn="76" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'classPathRoot' is not assigned and could be declared final
+</violation>
+<violation beginline="70" endline="70" begincolumn="40" endcolumn="54" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'fileName' is not assigned and could be declared final
+</violation>
+<violation beginline="72" endline="72" begincolumn="13" endcolumn="31" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (object not created locally)
+</violation>
+<violation beginline="73" endline="73" begincolumn="25" endcolumn="46" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (object not created locally)
+</violation>
+<violation beginline="75" endline="75" begincolumn="16" endcolumn="111" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (method chain calls)
+</violation>
+<violation beginline="75" endline="75" begincolumn="16" endcolumn="111" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (object not created locally)
+</violation>
+<violation beginline="75" endline="75" begincolumn="39" endcolumn="56" rule="LawOfDemeter" ruleset="Coupling" package="helpers" class="ClasspathSuite" method="getClassName" externalInfoUrl="http://pmd.sourceforge.net/rules/java/coupling.html#LawOfDemeter" priority="3">
+Potential violation of Law of Demeter (object not created locally)
+</violation>
+<violation beginline="78" endline="78" begincolumn="40" endcolumn="53" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="isTestClass" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'clazz' is not assigned and could be declared final
+</violation>
+<violation beginline="80" endline="80" begincolumn="13" endcolumn="25" rule="OnlyOneReturn" ruleset="Controversial" package="helpers" class="ClasspathSuite" method="isTestClass" externalInfoUrl="http://pmd.sourceforge.net/rules/java/controversial.html#OnlyOneReturn" priority="3">
+A method should have only one exit point, and that should be the last statement in the method
+</violation>
+<violation beginline="84" endline="84" begincolumn="17" endcolumn="28" rule="OnlyOneReturn" ruleset="Controversial" package="helpers" class="ClasspathSuite" method="isTestClass" externalInfoUrl="http://pmd.sourceforge.net/rules/java/controversial.html#OnlyOneReturn" priority="3">
+A method should have only one exit point, and that should be the last statement in the method
+</violation>
+<violation beginline="90" endline="90" begincolumn="44" endcolumn="57" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="isAbstractClass" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'clazz' is not assigned and could be declared final
+</violation>
+<violation beginline="94" endline="94" begincolumn="35" endcolumn="47" rule="MethodArgumentCouldBeFinal" ruleset="Optimization" package="helpers" class="ClasspathSuite" method="isTest" externalInfoUrl="http://pmd.sourceforge.net/rules/java/optimizations.html#MethodArgumentCouldBeFinal" priority="3">
+Parameter 'method' is not assigned and could be declared final
+</violation>
+</file>
+</pmd>
